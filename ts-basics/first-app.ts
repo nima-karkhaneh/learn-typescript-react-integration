@@ -126,20 +126,39 @@ function perfromAction(action: string | number, role: Role) {
 let roles: Array<Role>;
 roles = ['admin', 'user'];
 
-type DataStorage<T> = {
-    storage: T[];
-    add: (data: T) => void;
-}
+// type DataStorage<T> = {
+//     storage: T[];
+//     add: (data: T) => void;
+// }
 
 
-const textStorage : DataStorage<string> = {
-    storage: [],
-    add (data) {
-        this.storage.push(data)
+// const textStorage : DataStorage<string> = {
+//     storage: [],
+//     add (data) {
+//         this.storage.push(data)
+//     }
+// }
+
+// const userStorage: DataStorage<User> = {
+//     storage: [],
+//     add (user) {}
+// }
+
+
+// Or using a class instead of custom type
+
+class DataStorage<T> {
+    storage: T[] = [];
+
+    add (data: T) {
+        this.storage.push(data);
     }
 }
 
-const userStorage: DataStorage<User> = {
-    storage: [],
-    add (user) {}
+class AdvancedStorage<T> extends DataStorage<T> {
+    remove (item: T) {
+        this.storage = this.storage.filter(i => i !== item)
+    }
 }
+
+
