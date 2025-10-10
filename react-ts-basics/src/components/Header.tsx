@@ -17,7 +17,7 @@ type HeaderProps = PropsWithChildren<{image: {
 const Header = ({ image, children }: HeaderProps) => {
   return (
     <div>
-        <img src={image.src} alt={image.alt} />
+        <img {...image} />
         {children}
     </div>
   )
