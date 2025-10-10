@@ -16,10 +16,10 @@ type HeaderProps = PropsWithChildren<{image: {
 
 const Header = ({ image, children }: HeaderProps) => {
   return (
-    <div>
+    <header>
         <img {...image} />
         {children}
-    </div>
+    </header>
   )
 }
 
