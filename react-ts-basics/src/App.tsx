@@ -23,6 +23,13 @@ export default function App() {
       return ([...prevGoals, newGoal])
     })
 }
+
+
+function deleteItem(id: number) {
+  setGoals(prevGoals => (
+    prevGoals.filter(goal => goal.id !== id)
+  ))
+}
   
   return (
     <main>
@@ -30,7 +37,7 @@ export default function App() {
         <h1>Your course goals</h1>
       </Header>
       <button onClick={handleGoals}>Add goals</button>
-      <CourseGoalList goals={goals} />
+      <CourseGoalList goals={goals} onDeleteGoal={deleteItem} />
     </main>
   );
 }
