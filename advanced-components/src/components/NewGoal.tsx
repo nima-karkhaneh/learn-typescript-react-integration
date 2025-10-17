@@ -1,4 +1,4 @@
-import React, { useRef, type FormEvent } from 'react'
+import React, { useRef, useEffect, type FormEvent } from 'react'
 
 
 type NewGoalProps = {
@@ -10,6 +10,8 @@ const NewGoal = ({ onAdd }: NewGoalProps) => {
     const goal = useRef<HTMLInputElement>(null);
     const summary = useRef<HTMLInputElement>(null);
 
+    console.log(goal.current)
+
     function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -20,6 +22,11 @@ const NewGoal = ({ onAdd }: NewGoalProps) => {
 
     
 }
+
+useEffect(() => {
+  console.log("After mount:", goal.current);
+}, []);
+
    
 return (
     <form onSubmit={handleSubmit}>
