@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { get } from "./util/https";
 import BlogPosts, { type BlogPost } from "./components/BlogPosts";
 import fetchingImg from './assets/data-fetching.png';
+import ErrorMessage from "./components/ErrorMessage";
 
 type RawDataBlogPosts = {
   id: number,
@@ -15,10 +16,12 @@ type RawDataBlogPosts = {
 function App() {
   const [fetchedPost, setFetchedPost] = useState<BlogPost[] | null>(null)
   const [isFetching, setIsFetching] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
   useEffect(() => {
     async function fetchPost() {
       setIsFetching(true)
-      const data = await get(
+      try {
+        const data = await get(
         'https://jsonplaceholder.typicode.com/posts'
       ) as RawDataBlogPosts[]
 
@@ -29,27 +32,37 @@ function App() {
         text:post.body
       }
     })
+      setFetchedPost(blogPost)
+      }
+      catch (error) {
+        if (error instanceof Error) {
+          setError(error.message)
+        }
+      }
+      
     setIsFetching(false)
-    setFetchedPost(blogPost)
+    
     };
     fetchPost()
   }, [])
 
   let content: ReactNode
 
-    if (isFetching) {
-    content = <p id="loading-fallback">Fetching Posts...</p>
+   if (error) {
+    content = <ErrorMessage text={error} />
   }
-  
+
   if (fetchedPost) {
     content = <BlogPosts posts={fetchedPost} />
   }
-
-
+ 
+  if (isFetching) {
+    content = <p id="loading-fallback">Fetching Posts...</p>
+  }
 
   return(
     <main>
-      <img src={fetchingImg} alt="" />
+      <img src={fetchingImg} alt="An abstract image depicting a data fetching process." />
       {content}
     </main>
   )
