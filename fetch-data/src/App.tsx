@@ -14,8 +14,10 @@ type RawDataBlogPosts = {
 
 function App() {
   const [fetchedPost, setFetchedPost] = useState<BlogPost[] | null>(null)
+  const [isFetching, setIsFetching] = useState<boolean>(false)
   useEffect(() => {
     async function fetchPost() {
+      setIsFetching(true)
       const data = await get(
         'https://jsonplaceholder.typicode.com/posts'
       ) as RawDataBlogPosts[]
@@ -27,15 +29,23 @@ function App() {
         text:post.body
       }
     })
+    setIsFetching(false)
     setFetchedPost(blogPost)
     };
     fetchPost()
   }, [])
 
   let content: ReactNode
+
+    if (isFetching) {
+    content = <p id="loading-fallback">Fetching Posts...</p>
+  }
+  
   if (fetchedPost) {
     content = <BlogPosts posts={fetchedPost} />
   }
+
+
 
   return(
     <main>
