@@ -1,9 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector, type TypedUseSelectorHook } from "react-redux";
 
-import { type DispatchType } from "./store";
+import { type DispatchType, type RootState } from "./store";
+
 
 
 type DispatchFunction = () => DispatchType
 
 
-export  const useCartDispatch: DispatchFunction = useDispatch
+export const useCartDispatch: DispatchFunction = useDispatch
+export const useCartSelector: TypedUseSelectorHook<RootState> = useSelector;
