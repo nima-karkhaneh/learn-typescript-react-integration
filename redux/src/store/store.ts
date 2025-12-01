@@ -6,3 +6,6 @@ export const store = configureStore({
         cart: cartSlice.reducer
     }
 });
+
+
+export type DispatchType = typeof store.dispatch
